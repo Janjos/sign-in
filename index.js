@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-
+require("dotenv").config();
 require("./src/services/mongo");
 const Hapi = require("@hapi/hapi");
 const routes = require("./src/routes");
@@ -17,7 +16,7 @@ const init = async () => {
 };
 
 process.on("unhandledRejection", (err) => {
-  console.log(err);
+  console.error(err);
   process.exit(1);
 });
 

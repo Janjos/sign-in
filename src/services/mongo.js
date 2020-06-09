@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost:27017/logindb", {
+const { DB_HOST, DB_NAME, DB_PORT } = process.env;
+
+mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
