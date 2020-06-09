@@ -1,14 +1,14 @@
-const UserHandlers = require("../controllers/user");
+const Controller = require("../controllers/user");
 
 module.exports = [
   {
     method: "GET",
     path: "/users",
-    handler: UserHandlers.getAll,
+    handler: Controller.getAll,
   },
   {
     method: "POST",
     path: "/users",
-    handler: UserHandlers.save,
+    handler: Controller.save,
   },
 ];
