@@ -1,7 +1,7 @@
 require("dotenv").config();
-require("./src/services/mongo");
+require("./services/mongo");
 const Hapi = require("@hapi/hapi");
-const routes = require("./src/routes");
+const routes = require("./routes/user");
 
 const init = async () => {
   const server = Hapi.server({
