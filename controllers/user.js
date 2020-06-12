@@ -42,6 +42,8 @@ const login = async (request, h) => {
     }),
   };
 
+  await UserModel.updateOne({ _id: user._id }, { $set: { token: jwt.token } });
+
   const response = passwordIsCorrect ? jwt : "login failed";
 
   return h.response(response).code(statusCode);
