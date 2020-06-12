@@ -1,10 +1,12 @@
 {
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js --preserve-symlinks and --preserve-symlinks-main"
   },
   "dependencies": {
     "@hapi/hapi": "^19.1.1",
     "dotenv": "^8.2.0",
+    "hapi-auth-jwt2": "^10.1.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.18"
   },
   "devDependencies": {
