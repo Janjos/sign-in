@@ -35,11 +35,17 @@ const login = async (request, h) => {
   const user = await UserModel.findOne({ email });
   const passwordIsCorrect = user.senha === senha;
   const statusCode = passwordIsCorrect ? 200 : 401;
+
   const jwt = {
-    token: jwtUtils.generateJWT({
-      id: user._id,
-      email: user.email,
-    }),
+    token: jwtUtils.generateJWT(
+      {
+        email: user.email,
+      },
+      {
+        subject: user.id,
+        expiresIn: "30m",
+      }
+    ),
   };
 
   await UserModel.updateOne({ _id: user._id }, { $set: { token: jwt.token } });
