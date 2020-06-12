@@ -1,4 +1,4 @@
-const UserHandlers = require("./controllers/user");
+const UserHandlers = require("../controllers/user");
 
 module.exports = [
   {
