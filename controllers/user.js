@@ -13,14 +13,21 @@ const getAll = async (request, h) => {
 
 const save = async (request, h) => {
   const { nome, email, senha, telefones } = request.payload;
-  const user = new UserModel();
-  user.nome = nome;
-  user.email = email;
-  user.senha = senha;
-  user.telefones = telefones;
-
+  const user = new UserModel({
+    nome,
+    email,
+    senha,
+    telefones,
+  });
   await user.save();
-  return h.response({ data: user }).code(201);
+
+  const response = {
+    data: {
+      ...user._doc,
+    },
+  };
+
+  return h.response(response).code(201);
 };
 
 const login = async (request, h) => {
@@ -32,14 +39,16 @@ const login = async (request, h) => {
     token: jwtUtils.generateJWT({
       id: user._id,
       email: user.email,
-      senha: user.senha,
     }),
   };
+
+  await UserModel.updateOne({ _id: user._id }, { $set: { token: jwt.token } });
 
   const response = passwordIsCorrect ? jwt : "login failed";
 
   return h.response(response).code(statusCode);
 };
+
 module.exports.findById = findById;
 module.exports.getAll = getAll;
 module.exports.save = save;
