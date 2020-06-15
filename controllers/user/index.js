@@ -1,5 +1,6 @@
-const UserModel = require("../models/user");
-const jwtUtils = require("../utils/jwt");
+const UserModel = require("../../models/user");
+const jwtUtils = require("../../utils/jwt");
+const { validateEmail } = require("../../utils/validation");
 
 const findById = async (id) => {
   const user = await UserModel.findById(id);
@@ -32,8 +33,17 @@ const save = async (request, h) => {
 
 const login = async (request, h) => {
   const { email, senha } = request.payload;
+  if (!validateEmail(email)) {
+    return h.response({ error: "email is invalid" }).code(400);
+  }
+
   const user = await UserModel.findOne({ email });
-  const passwordIsCorrect = user.senha === senha;
+  const passwordIsCorrect = user ? user.senha === senha : false;
+
+  if (!passwordIsCorrect) {
+    return h.response({ error: "email or password is wrong" }).code(400);
+  }
+
   const statusCode = passwordIsCorrect ? 200 : 401;
 
   const jwt = {
