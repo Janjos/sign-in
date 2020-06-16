@@ -4,7 +4,7 @@ const validateEmail = (email) => {
 };
 
 const validatePhone = ({ numero, ddd }) => {
-  const dddPattern = new RegExp(/^\d{2}\$/);
+  const dddPattern = new RegExp(/(^\d{2})$/);
   const dddIsValid = ddd.match(dddPattern);
 
   const phonePattern = new RegExp(/(^\d{8,9})$/);
