@@ -1,16 +1,16 @@
 const JWT = require("jsonwebtoken");
 const UserController = require("../controllers/user");
 
-const secret = "secret";
+const secret = process.env.TOKEN_SECRET;
 
 const validate = async (decoded) => {
-  const user = await UserController.findById(decoded.id);
+  const user = await UserController.findById(decoded.sub);
   const isValidUser = !!user;
 
   return { isValid: isValidUser };
 };
 
-const generateJWT = (obj) => JWT.sign(obj, secret);
+const generateJWT = (obj, options = {}) => JWT.sign(obj, secret, options);
 
 module.exports = {
   generateJWT,
