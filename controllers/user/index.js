@@ -1,6 +1,7 @@
+/* eslint-disable no-restricted-syntax */
 const UserModel = require("../../models/user");
 const jwtUtils = require("../../utils/jwt");
-const { validateEmail } = require("../../utils/validation");
+const { validateEmail, validatePhone } = require("../../utils/validation");
 
 const findById = async (id) => {
   const user = await UserModel.findById(id);
@@ -14,6 +15,25 @@ const getAll = async (request, h) => {
 
 const save = async (request, h) => {
   const { nome, email, senha, telefones } = request.payload;
+
+  if (!validateEmail(email)) {
+    return h
+      .response({
+        error: "email is invalid",
+      })
+      .code(400);
+  }
+
+  for (const phone of telefones) {
+    if (!validatePhone(phone)) {
+      return h
+        .response({
+          error: "phone is invalid",
+        })
+        .code(400);
+    }
+  }
+
   const user = new UserModel({
     nome,
     email,
