@@ -1,10 +1,12 @@
 /* eslint-disable no-restricted-syntax */
 const UserModel = require("../../models/user");
 const jwtUtils = require("../../utils/jwt");
+const { hashPassword, comparePassword } = require("../../utils/crypto");
 const {
   validateEmail,
   validatePhone,
   validateUserName,
+  validateUserPassword,
 } = require("../../utils/validation");
 
 const findById = async (id) => {
@@ -46,12 +48,25 @@ const save = async (request, h) => {
     }
   }
 
+  if (!validateUserPassword(senha)) {
+    return h
+      .response({
+        error: "password must have six or more characters",
+      })
+      .code(400);
+  }
+
+  const cryptographedPassword = await hashPassword(senha).then(
+    (cryptoPassword) => cryptoPassword
+  );
+
   const user = new UserModel({
     nome,
     email,
-    senha,
+    senha: cryptographedPassword,
     telefones,
   });
+
   await user.save();
 
   const response = {
@@ -70,7 +85,13 @@ const login = async (request, h) => {
   }
 
   const user = await UserModel.findOne({ email });
-  const passwordIsCorrect = user ? user.senha === senha : false;
+  if (!user) {
+    return h.response({ error: "user not found" }).code(500);
+  }
+
+  const passwordIsCorrect = await comparePassword(senha, user.senha).then(
+    (result) => result
+  );
 
   if (!passwordIsCorrect) {
     return h.response({ error: "email or password is wrong" }).code(400);

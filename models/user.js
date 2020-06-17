@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { validateEmail } = require("../utils/validation");
 
 const { Schema } = mongoose;
 
