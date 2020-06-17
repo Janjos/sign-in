@@ -13,5 +13,13 @@ const validatePhone = ({ numero, ddd }) => {
   return dddIsValid && phoneIsValid;
 };
 
+const validateUserName = (name) => {
+  const namePattern = new RegExp(/^[A-z À-ú]+$/);
+  const nameIsValid = name.match(namePattern);
+
+  return nameIsValid;
+};
+
 exports.validateEmail = validateEmail;
 exports.validatePhone = validatePhone;
+exports.validateUserName = validateUserName;
