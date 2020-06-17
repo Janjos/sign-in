@@ -20,6 +20,11 @@ const validateUserName = (name) => {
   return nameIsValid;
 };
 
+const validateUserPassword = (password) => {
+  return password.length >= 6;
+};
+
 exports.validateEmail = validateEmail;
 exports.validatePhone = validatePhone;
 exports.validateUserName = validateUserName;
+exports.validateUserPassword = validateUserPassword;
