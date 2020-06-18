@@ -60,11 +60,11 @@ const save = async (request, h) => {
   if (hasUserWithSameEmail) {
     return comparePassword(senha, hasUserWithSameEmail.senha).then((result) => {
       if (result) {
-        return h
-          .response({
-            error: "this email is already registered but password is correct",
-          })
-          .code(400);
+        // return h
+        //   .response({
+        //     error: "this email is already registered but password is correct",
+        //   })
+        //   .code(400);
       }
       return h
         .response({
@@ -104,7 +104,7 @@ const login = async (request, h) => {
 
   const user = await UserModel.findOne({ email });
   if (!user) {
-    return h.response({ error: "user not found" }).code(500);
+    return h.response({ error: "email or password is wrong" }).code(500);
   }
 
   const passwordIsCorrect = await comparePassword(senha, user.senha).then(
