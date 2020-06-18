@@ -60,11 +60,12 @@ const save = async (request, h) => {
   if (hasUserWithSameEmail) {
     return comparePassword(senha, hasUserWithSameEmail.senha).then((result) => {
       if (result) {
-        // return h
-        //   .response({
-        //     error: "this email is already registered but password is correct",
-        //   })
-        //   .code(400);
+        // Change this to redirect to login service
+        return h
+          .response({
+            error: "this email is already registered but password is correct",
+          })
+          .code(400);
       }
       return h
         .response({

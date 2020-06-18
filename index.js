@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 
 require("dotenv").config();
-require("./services/mongo");
+require("./database/mongo");
 const Hapi = require("@hapi/hapi");
 const routes = require("./routes/user");
 const jwtUtils = require("./utils/jwt");
