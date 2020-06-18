@@ -56,6 +56,24 @@ const save = async (request, h) => {
       .code(400);
   }
 
+  const hasUserWithSameEmail = await UserModel.findOne({ email });
+  if (hasUserWithSameEmail) {
+    return comparePassword(senha, hasUserWithSameEmail.senha).then((result) => {
+      if (result) {
+        return h
+          .response({
+            error: "this email is already registered but password is correct",
+          })
+          .code(400);
+      }
+      return h
+        .response({
+          error: "this email is already registered",
+        })
+        .code(400);
+    });
+  }
+
   const cryptographedPassword = await hashPassword(senha).then(
     (cryptoPassword) => cryptoPassword
   );
