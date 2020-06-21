@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "nodemon index.js --preserve-symlinks and --preserve-symlinks-main"
+    "start": "nodemon index.js --preserve-symlinks and --preserve-symlinks-main",
+    "test": "lab -v **/*.test.js"
   },
   "dependencies": {
     "@hapi/hapi": "^19.1.1",
